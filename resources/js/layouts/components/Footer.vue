@@ -4,7 +4,7 @@
     <span class="d-flex align-center">
       &copy;
       {{ new Date().getFullYear() }}
-      Made by Yaroslav
+      Made by Yaroslav Smachylo
     </span>
   </div>
 </template>

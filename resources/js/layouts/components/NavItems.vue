@@ -8,6 +8,14 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
   <!-- 👉 Dashboards -->
   <VerticalNavLink
     :item="{
+      title: 'My Domains',
+      to: '/domains',
+      icon: 'bx-globe',
+    }"
+  /> 
+
+  <VerticalNavLink
+    :item="{
       title: 'Dashboard',
       to: '/dashboard',
       icon: 'bx-home-smile',

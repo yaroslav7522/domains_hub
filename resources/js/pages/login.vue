@@ -74,7 +74,7 @@ async function handleLogin() {
               v-html="logo"
             />
             <h1 class="app-logo-title">
-              Crypto Bot
+              Domains Hub
             </h1>
           </RouterLink>
         </VCardItem>

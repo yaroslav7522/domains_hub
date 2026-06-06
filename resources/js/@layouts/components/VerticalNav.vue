@@ -66,7 +66,7 @@ const handleNavScroll = evt => {
           />
 
           <h1 class="leading-normal">
-            Crypto
+            DomainsHub
           </h1>
         </RouterLink>
       </slot>

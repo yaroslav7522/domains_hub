@@ -6,6 +6,19 @@ export const routes = [
     meta: { requiresAuth: true },
     children: [
       {
+        path: 'domains',
+        component: () => import('@/pages/domains/list.vue'),
+      }, 
+      {
+        path: 'domains/store',
+        component: () => import('@/pages/domains/store.vue'),
+      },            
+      {
+        path: 'domains/:id',
+        component: () => import('@/pages/domains/edit.vue'),
+      },            
+      
+      {
         path: 'dashboard',
         component: () => import('@/pages/dashboard.vue'),
       },

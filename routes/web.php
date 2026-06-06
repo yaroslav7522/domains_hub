@@ -8,9 +8,13 @@ Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 })->name('login');
 
+Route::get('/domains', function () {
+     return Inertia::render('Domains/List');
+})->name('My Domains');
+
 Route::get('/dashboard', function () {
      return Inertia::render('Dashboard');
-})->middleware('auth:sanctum')->name('dashboard');
+})->name('dashboard');
 
 Route::get('{any?}', function() {
     return view('app');

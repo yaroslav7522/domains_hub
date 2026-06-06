@@ -10,10 +10,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(BinanceSpotServiceInterface::class, fn() => new BinanceSpotService(
-            config('services.binance.api_key'),
-            config('services.binance.api_secret'),
-        ));
+        //
     }
 
     /**

@@ -81,18 +81,15 @@ async function handleRegister() {
               v-html="logo"
             />
             <h1 class="app-logo-title">
-              Crypto Bot
+              Domains Hub
             </h1>
           </RouterLink>
         </VCardItem>
 
         <VCardText>
-          <h4 class="text-h4 mb-1">
-            Adventure starts here 🚀
+          <h4 class="text-h4 mb-1 text-center">
+            Register an account
           </h4>
-          <p class="mb-0">
-            Make your app management easy and fun!
-          </p>
         </VCardText>
 
         <VCardText>
@@ -185,22 +182,6 @@ async function handleRegister() {
                 </RouterLink>
               </VCol>
 
-              <VCol
-                cols="12"
-                class="d-flex align-center"
-              >
-                <VDivider />
-                <span class="mx-4">or</span>
-                <VDivider />
-              </VCol>
-
-              <!-- auth providers -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <AuthProvider />
-              </VCol>
             </VRow>
           </VForm>
         </VCardText>
