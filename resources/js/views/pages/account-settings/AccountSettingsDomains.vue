@@ -1,6 +1,8 @@
 <script setup>
+import { checkAuth } from '@/plugins/router'
 
-const accountDataLocal = ref({ name: '', email: '' })
+
+const accountDataLocal = ref({ checkInterval: '', requestTimeout: '', checkMethod: '' })
 const original = ref({ name: '', email: '' })
 const isLoading = ref(false)
 const isFetching = ref(true)
@@ -17,8 +19,8 @@ async function fetchUser() {
     })
     if (!res.ok) return
     const data = await res.json()
-    original.value = { name: data.name, email: data.email }
-    accountDataLocal.value = { name: data.name, email: data.email }
+    original.value = { checkInterval: data.check_interval, requestTimeout: data.request_timeout, checkMethod: data.check_method }
+    accountDataLocal.value = { checkInterval: data.check_interval, requestTimeout: data.request_timeout, checkMethod: data.check_method }
   } finally {
     isFetching.value = false
   }
@@ -49,9 +51,8 @@ async function saveChanges() {
       errorMessage.value = data.errors?.name?.[0] ?? data.errors?.email?.[0] ?? data.message ?? 'Failed to save changes.'
       return
     }
-    original.value = { name: data.name, email: data.email }
-    successMessage.value = 'Account details updated successfully.'
-    localStorage.setItem('user_name', data.name)
+    original.value = { checkInterval: data.check_interval, requestTimeout: data.request_timeout, checkMethod: data.check_method }
+    successMessage.value = 'Availability check settings updated successfully.'
   } catch {
     errorMessage.value = 'Network error. Please try again.'
   } finally {
@@ -65,7 +66,7 @@ fetchUser()
 <template>
   <VRow>
     <VCol cols="12">
-      <VCard title="Account Details">
+      <VCard title="Availability check settings">
         <VCardText>
           <VForm class="mt-6" @submit.prevent="saveChanges">
             <VRow>

@@ -86,7 +86,7 @@ onMounted(fetchDomains)
           </VBtn>
         </VCardText>        
 
-        <VTable class="px-8 py-8">
+        <VTable class="px-8 pb-8">
           <thead>
             <tr>
               <th class="text-uppercase">

@@ -18,7 +18,10 @@ class DomainController extends Controller
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'domain' => ['required', 'string', 'max:253', 'unique:domains,domain'],
+            'domain'          => ['required', 'string', 'max:253', 'unique:domains,domain'],
+            'check_interval'  => ['nullable', 'integer', 'min:1'],
+            'request_timeout' => ['nullable', 'integer', 'min:1'],
+            'check_method'    => ['nullable', 'string', 'in:GET,HEAD'],
         ]);
 
         $domain = $request->user()->domains()->create($data);
@@ -38,7 +41,10 @@ class DomainController extends Controller
         $this->authorize($request, $domain);
 
         $data = $request->validate([
-            'domain' => ['required', 'string', 'max:253', 'unique:domains,domain,' . $domain->id],
+            'domain'          => ['required', 'string', 'max:253', 'unique:domains,domain,' . $domain->id],
+            'check_interval'  => ['nullable', 'integer', 'min:1'],
+            'request_timeout' => ['nullable', 'integer', 'min:1'],
+            'check_method'    => ['nullable', 'string', 'in:GET,HEAD'],
         ]);
 
         $domain->update($data);

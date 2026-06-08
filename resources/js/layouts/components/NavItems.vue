@@ -5,14 +5,35 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 </script>
 
 <template>
-  <!-- 👉 Dashboards -->
   <VerticalNavLink
     :item="{
       title: 'My Domains',
       to: '/domains',
       icon: 'bx-globe',
     }"
-  /> 
+  />
+  
+  <VerticalNavLink
+    :item="{
+      title: 'Logs',
+      to: '/logs',
+      icon: 'bx-align-justify',
+    }"
+  />
+  
+  <VerticalNavLink
+    :item="{
+      title: 'Settings',
+      to: '/settings',
+      icon: 'bx-cog',
+    }"
+  />  
+
+  <VerticalNavSectionTitle
+    :item="{
+      heading: 'Other Pages',
+    }"
+  />
 
   <VerticalNavLink
     :item="{

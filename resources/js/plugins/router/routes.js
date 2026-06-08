@@ -16,7 +16,15 @@ export const routes = [
       {
         path: 'domains/:id',
         component: () => import('@/pages/domains/edit.vue'),
-      },            
+      },   
+      {
+        path: 'logs',
+        component: () => import('@/pages/logs.vue'),
+      }, 
+      {
+        path: 'settings',
+        component: () => import('@/pages/settings.vue'),
+      },                      
       
       {
         path: 'dashboard',

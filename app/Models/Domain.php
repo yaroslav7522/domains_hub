@@ -10,7 +10,13 @@ class Domain extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'domain'];
+    protected $fillable = [
+        'user_id', 
+        'domain',
+        'check_interval',
+        'request_timeout',
+        'check_method',        
+    ];
 
     public function user(): BelongsTo
     {

@@ -33,7 +33,7 @@ async function handleLogin() {
     }
     localStorage.setItem('auth_token', data.token)
     resetAuth()
-    router.push('/dashboard')
+    router.push('/domains')
   } catch {
     errorMessage.value = 'Network error. Please try again.'
   } finally {
