@@ -14,16 +14,16 @@ class CheckDomainsCommand extends Command
 
     public function handle(): int
     {
-        $query = Domain::query();
+        $query = Domain::with('latestCheck');
 
         if ($id = $this->option('id')) {
             $query->where('id', $id);
         }
 
-        $domains = $query->get();
+        $domains = $query->get()->filter(fn(Domain $domain) => $this->isDue($domain));
 
         if ($domains->isEmpty()) {
-            $this->warn('No domains found.');
+            $this->info('No domains due for a check.');
             return self::SUCCESS;
         }
 
@@ -35,5 +35,16 @@ class CheckDomainsCommand extends Command
         $this->info("Dispatched {$domains->count()} check job(s).");
 
         return self::SUCCESS;
+    }
+
+    private function isDue(Domain $domain): bool
+    {
+        $latest = $domain->latestCheck;
+
+        if ($latest === null) {
+            return true;
+        }
+
+        return $latest->created_at->addSeconds($domain->check_interval)->isPast();
     }
 }
