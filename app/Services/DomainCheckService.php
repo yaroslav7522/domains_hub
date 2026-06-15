@@ -19,6 +19,8 @@ class DomainCheckService
 
         $start = hrtime(true);
 
+        Log::info("Starting domain check [{$domain->domain}] using {$method} method with timeout {$timeout}s");
+
         try {
             $response = Http::timeout($timeout)->{$method}($url);
 
