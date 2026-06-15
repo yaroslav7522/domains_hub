@@ -1,5 +1,6 @@
 <script setup>
 import AccountSettingsAccount from '@/views/pages/account-settings/AccountSettingsAccount.vue'
+import AccountSettingsNotifications from '@/views/pages/account-settings/AccountSettingsNotifications.vue'
 
 const route = useRoute()
 const activeTab = ref(route.params.tab)
@@ -11,6 +12,11 @@ const tabs = [
     icon: 'bx-user',
     tab: 'account',
   },
+  {
+    title: 'Notifications',
+    icon: 'bx-bell',
+    tab: 'notifications',
+  },  
 ]
 </script>
 
@@ -33,7 +39,7 @@ const tabs = [
         />
         {{ item.title }}
       </VTab>
-    </VTabs>
+    </VTabs> 
 
     <VWindow
       v-model="activeTab"
@@ -42,6 +48,11 @@ const tabs = [
       <!-- Account -->
       <VWindowItem value="account">
         <AccountSettingsAccount />
+      </VWindowItem>
+
+      <!-- Notifications -->
+      <VWindowItem value="notifications">
+        <AccountSettingsNotifications />
       </VWindowItem>
 
     </VWindow>

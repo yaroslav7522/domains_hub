@@ -21,21 +21,23 @@ https://domains-hub.laravel.cloud/
 ```
 app/
 ├── Console/Commands/
-│   └── CheckDomainsCommand.php     # Scheduler entry point — dispatches due domains
+│   └── CheckDomainsCommand.php        # Scheduler entry point — dispatches due domains
 ├── Contracts/
 │   └── NotificationServiceInterface.php
 ├── Http/Controllers/
 │   ├── AuthController.php
 │   ├── DomainController.php
-│   └── CheckHistoryController.php
+│   ├── CheckHistoryController.php
+│   └── TelegramBotController.php      # Telegram webhook — links accounts & handles bot commands
 ├── Jobs/
-│   └── CheckDomainJob.php          # Queued job — runs one domain check
+│   ├── CheckDomainJob.php             # Queued job — runs one domain check
+│   └── SendTelegramMessageJob.php     # Queued job — sends a Telegram message (3 retries, 10s backoff)
 ├── Models/
 │   ├── User.php
 │   ├── Domain.php
 │   └── CheckHistory.php
 └── Services/
-    ├── DomainCheckService.php       # HTTP check logic + notification trigger
+    ├── DomainCheckService.php          # HTTP check logic + dispatches SendTelegramMessageJob
     ├── EmailNotificationService.php
     ├── TelegramNotificationService.php
     └── NotificationServiceFactory.php
@@ -45,10 +47,10 @@ app/
 
 ```
 Scheduler (every minute)
-  → CheckDomainsCommand   filters domains due by check_interval
+  → CheckDomainsCommand   filters domains due by check_interval (minutes)
     → CheckDomainJob       queued, retries up to 3×
       → DomainCheckService  performs HTTP request, saves CheckHistory
-        → NotificationServiceFactory  sends Telegram alert if domain is down
+        → SendTelegramMessageJob  queued, sends Telegram alert if domain is down
 ```
 
 ---
@@ -169,7 +171,7 @@ Response `200`:
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `domain` | string | required | Hostname without protocol, e.g. `example.com` |
-| `check_interval` | integer | `300` | Seconds between checks |
+| `check_interval` | integer | `300` | Minutes between checks |
 | `request_timeout` | integer | `30` | HTTP request timeout in seconds |
 | `check_method` | string | `GET` | `GET` or `HEAD` |
 
