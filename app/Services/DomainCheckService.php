@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendTelegramMessageJob;
 use App\Models\CheckHistory;
 use App\Models\Domain;
 use Illuminate\Support\Facades\Http;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class DomainCheckService
 {
-    public function __construct(private NotificationServiceFactory $notifications) {}
+    public function __construct() {}
 
     public function check(Domain $domain): CheckHistory
     {
@@ -64,14 +65,10 @@ class DomainCheckService
 
         $error = $history->error ?? "HTTP {$history->http_code}";
 
-        try {
-            $this->notifications->make('telegram')->send(
-                $user->telegram_chat_id,
-                "Domain Down: {$domain->domain}",
-                "Your domain *{$domain->domain}* is unreachable.\nReason: {$error}",
-            );
-        } catch (\Throwable $e) {
-            Log::error("Telegram notification failed for [{$domain->domain}]: {$e->getMessage()}");
-        }
+        SendTelegramMessageJob::dispatch(
+            $user->telegram_chat_id,
+            "Domain Down: {$domain->domain}",
+            "Your domain *{$domain->domain}* is unreachable.\nReason: {$error}",
+        );
     }
 }

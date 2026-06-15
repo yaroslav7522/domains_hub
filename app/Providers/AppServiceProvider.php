@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Contracts\BinanceSpotServiceInterface;
 use App\Contracts\NotificationServiceInterface;
 use App\Services\BinanceSpotService;
 use App\Services\EmailNotificationService;

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendTelegramMessageJob;
 use App\Models\User;
-use App\Services\TelegramNotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class TelegramBotController extends Controller
 {
-    public function __construct(private TelegramNotificationService $telegram) {}
+    public function __construct() {}
 
     public function webhook(Request $request): JsonResponse
     {
@@ -32,7 +32,7 @@ class TelegramBotController extends Controller
         }
 
         if ($text === '/start') {
-            $this->telegram->send($chatId, 'Welcome', 'Please enter your Email');
+            SendTelegramMessageJob::dispatch($chatId, 'Welcome', 'Please enter your Email');
             return response()->json(['ok' => true]);
         }
 
@@ -40,13 +40,13 @@ class TelegramBotController extends Controller
             $user = User::where('email', $text)->first();
 
             if (!$user) {
-                $this->telegram->send($chatId, 'Not Found', 'No account found with that email address. Please check and try again.');
+                SendTelegramMessageJob::dispatch($chatId, 'Not Found', 'No account found with that email address. Please check and try again.');
                 return response()->json(['ok' => true]);
             }
 
             $user->update(['telegram_chat_id' => $chatId]);
 
-            $this->telegram->send(
+            SendTelegramMessageJob::dispatch(
                 $chatId,
                 'Account Linked',
                 "Your Telegram account has been linked to {$user->email}. You will now receive domain notifications here."
@@ -57,7 +57,7 @@ class TelegramBotController extends Controller
             return response()->json(['ok' => true]);
         }
 
-        $this->telegram->send($chatId, 'Help', 'Please send /start to begin or enter your email address to link your account.');
+        SendTelegramMessageJob::dispatch($chatId, 'Help', 'Please send /start to begin or enter your email address to link your account.');
 
         return response()->json(['ok' => true]);
     }
