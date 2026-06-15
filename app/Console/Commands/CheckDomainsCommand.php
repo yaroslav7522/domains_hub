@@ -45,6 +45,6 @@ class CheckDomainsCommand extends Command
             return true;
         }
 
-        return $latest->created_at->addSeconds($domain->check_interval)->isPast();
+        return $latest->created_at->addSeconds($domain->check_interval*60)->isPast();
     }
 }
